@@ -130,7 +130,7 @@
 
 			<tr>
 				<td colspan="2" align="center">
-					<button onclick="openclose()" type="button" class="btn btn-warning" id="loginBtn">로그인</button>&nbsp;&nbsp;
+					<button onclick="openclose()" type="button" class="btn btn-warning" onclick="checkLogin()" id="loginBtn">로그인</button>&nbsp;&nbsp;
 					<button type="button" class="btn btn-info" id="rewriteBtn">다시작성</button>
 				</td>
 			</tr>
