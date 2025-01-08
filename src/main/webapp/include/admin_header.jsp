@@ -46,7 +46,7 @@
 		
 		<div id="air_title">
 			<a href="#">${adminName }님 환영합니다.</a>
-			<a href="<%=request.getContextPath() %>/admin_logout.go">로그아웃</a>
+			<a href="<%=request.getContextPath() %>/admin_hidden.go">로그졕스</a>
 		</div>
 		<br>
 		

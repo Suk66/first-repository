@@ -10,17 +10,13 @@
 
 	<jsp:include page="../include/admin_header.jsp" />
 	
-	<ul>
-		<li>
-			<a href="<%=request.getContextPath() %>/admin_category_input.go">숙박 카테고리 등록</a>
-		</li>
+	<h1>관리자 메인 페이지</h1>
+	<p>환영합니다, <%= session.getAttribute("adminName") %>님! </p>
+
+
+	<!-- 로그아웃 버튼. -->
+	<a href="admin_logout.go">로그아웃</a>
 		
-		<li>
-			<a href="<%=request.getContextPath() %>/admin_category_list.go">숙박 카테고리 리스트</a>
-		</li>
-		
-		
-	</ul>
 	
 	<jsp:include page="../include/admin_footer.jsp" />
 

@@ -116,16 +116,26 @@
 
 		<h1>나만의 Air Bnb</h1>
 
-
+		<form action="admin_login_ok.go" method="post">
 		<table border="1" width="400">
 			<tr>
 				<th>관리자 아이디</th>
-				<td><input name="admin_id"></td>
+				<td><input type="text" id="admin_id" name="admin_id" required></td>
 			</tr>
 
 			<tr>
 				<th>관리자 비밀번호</th>
-				<td><input type="password" name="admin_pwd"></td>
+				<td><input type="password" id="admin_pwd" name="admin_pwd" required></td>
+			</tr>
+			
+			<tr>
+				<td colspan="2" align="center">
+				<input type="submit" value="진짜로그인하기">
+				<input type="reset" value="진짜다시작성">
+					
+				
+				</td>
+			
 			</tr>
 
 			<tr>
@@ -139,7 +149,7 @@
 
 
 		</table>
-
+	</form>
 	</div>
 	
 	
