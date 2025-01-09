@@ -42,7 +42,7 @@ public class AdminLoginOkAction implements Action {
 			session.setAttribute("adminName", cont.getAdmin_name());
 			
 			forward.setRedirect(false);
-			forward.setPath("admin/admin_main.jsp");
+			forward.setPath("admin/hidden_test.jsp");
 			
 		}else if(check == -1) {
 			// 아이디는 일치하나 비번 다름.
