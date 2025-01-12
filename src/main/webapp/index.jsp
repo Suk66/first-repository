@@ -63,7 +63,7 @@
         <h1>Airbnb에 오신 것을 환영합니다</h1>
         <div class="button-group">
             <!-- 고객과 관리자 페이지로 이동하는 버튼 -->
-            <a href="customerLogin.go">고객</a>
+            <a href="userView.go">고객</a>
             <a href="admin_login.go" class="admin">관리자</a>
         </div>
     </div>

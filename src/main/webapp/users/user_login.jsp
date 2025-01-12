@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+		
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AirBnb 관리자 로그인 페이지</title>
+<title>AirBnb 고객 로그인 페이지</title>
 <!-- Bootstrap CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
@@ -116,16 +117,16 @@
 
 		<h1>나만의 Air Bnb</h1>
 
-		<form action="admin_login_ok.go" method="post">
+		<form action="user_login_ok.go" method="post">
 		<table border="1" width="400">
 			<tr>
-				<th>관리자 아이디</th>
-				<td><input type="text" id="admin_id" name="admin_id" required></td>
+				<th>고객 아이디</th>
+				<td><input type="text" id="user_id" name="user_id" required></td>
 			</tr>
 
 			<tr>
-				<th>관리자 비밀번호</th>
-				<td><input type="password" id="admin_pwd" name="admin_pwd" required></td>
+				<th>고객 비밀번호</th>
+				<td><input type="password" id="user_pwd" name="user_pwd" required></td>
 			</tr>
 			
 		
@@ -141,6 +142,113 @@
 
 		</table>
 	</form>
+	</div>
+	
+	<div align="center">
+		<%= new java.util.Date() %>
+		
+		<br>
+		
+		<%
+		
+			java.util.Calendar cal = java.util.Calendar.getInstance();
+		%>
+		
+		오늘은 
+		<%= cal.get(java.util.Calendar.YEAR) %>년
+		<%= cal.get(java.util.Calendar.MONTH) +1 %>월
+		<%= cal.get(java.util.Calendar.DATE) %>일
+		입니다.
+		<br>
+		<% 
+			int sum = 0;
+			for (int i=1; i <= 10; i++) {
+				
+				sum = sum + i;
+				
+			}
+		
+		%>
+		1 부터 10까지의 합은 <%= sum %> 입니다.
+		<br>
+		
+		1 부터 10까지의 합
+		
+		<%= 1+2+3+4+5+6+7+8+9+10 %>
+		입니다.
+		<br>
+		
+		<%!
+		
+			public int multiply(int a, int b) {
+			
+			int c = a*b;
+			
+			return c;
+			
+		}
+		
+		%>
+		
+		10 * 25 = <%= multiply(10, 25) %>
+		<br>
+		
+		<%!
+			public int add(int a, int b) {
+			
+			int c = a+b;
+			return c;
+			
+		}
+		
+		public int subtract(int a, int b) {
+			
+			int c = a - b;
+			return c;
+			
+		}
+		
+		
+		%>
+		
+		<%
+		
+			int value1 = 3;
+			int value2 = 9;
+			
+			int addResult = add(value1, value2);
+			int subtractResult = subtract(value1, value2);
+		
+		
+		%>
+		
+		<%=value1 %> + <%= value2 %> = <%= addResult %>
+		<br>
+		<%= value1 %> - <%= value2 %> = <%= subtractResult %>
+		<br>
+		
+		클라이언트IP = <%=request.getRemoteAddr() %> <br>
+		
+		요청정보길이 = <%=request.getContentLength() %> <br>
+		
+		요청정보 인코딩 = <%=request.getCharacterEncoding() %> <br>
+		
+		요청정보 컨텐츠타입 = <%=request.getContentType() %> <br>
+		
+		요청정보 프로토콜 = <%= request.getProtocol() %> <br>
+		
+		요청정보 전송방식 = <%= request.getMethod() %> <br>
+		
+		요청 URI = <%= request.getRequestURI() %> <br>
+		
+		컨텍스트 경로 = <%=request.getContextPath() %> <br>
+		
+		서버이름 = <%= request.getServerName() %> <br>
+		
+		서버포트 = <%= request.getServerPort() %> <br>
+		
+		
+	
 	</div>
 	
 	
