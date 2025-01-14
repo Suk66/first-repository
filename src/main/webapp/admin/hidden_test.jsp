@@ -461,7 +461,7 @@
 			<ul>
 				<li><a href="#">호스트가 되어 보세요.</a></li>
 				<li><a href="#">도움말</a></li>
-				<li><a href="#">회원가입</a></li>
+				<li><a href="<%= request.getContextPath() %>/userNew.go">회원가입</a></li>
 				<li><a href="<%=request.getContextPath() %>/admin_login.go">로그인</a></li>
 			</ul>
 		
