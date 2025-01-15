@@ -7,32 +7,32 @@ public class AirbnbUserDTO {
 	private int userNum;
 	private String userId;
 	private String userPwd;
+	private String userName;
 	private String userEmail;
 	private String userPhone;
 	private Timestamp joinDate;
 	private Timestamp lastLogin;
 	private String userAddr;
-	private String status;
-	private String profileImage;
+	
 	
 	
 	public AirbnbUserDTO() {}
 	
 	
-	public AirbnbUserDTO(int userNum, String userId, String userPwd, String userEmail, String userPhone,
-						Timestamp joinDate, Timestamp lastLogin, String userAddr, String status, String profileImage) {
+	public AirbnbUserDTO(int userNum, String userId, String userName, String userPwd, String userEmail, String userPhone,
+						Timestamp joinDate, Timestamp lastLogin, String userAddr) {
 		
 		
 		this.userNum = userNum;
 		this.userId = userId;
 		this.userPwd = userPwd;
+		this.userName = userName;
 		this.userEmail = userEmail;
 		this.userPhone = userPhone;
 		this.joinDate = joinDate;
 		this.lastLogin = lastLogin;
 		this.userAddr = userAddr;
-		this.status = status;
-		this.profileImage = profileImage;
+		
 		
 	}
 
@@ -64,6 +64,14 @@ public class AirbnbUserDTO {
 
 	public void setUserPwd(String userPwd) {
 		this.userPwd = userPwd;
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 
@@ -116,27 +124,7 @@ public class AirbnbUserDTO {
 		this.userAddr = userAddr;
 	}
 
-
-	public String getStatus() {
-		return status;
-	}
-
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-
-	public String getProfileImage() {
-		return profileImage;
-	}
-
-
-	public void setProfileImage(String profileImage) {
-		this.profileImage = profileImage;
-	}
-	
-	
+/*
 	@Override
     public String toString() {
         return "AirbnbUserDTO{" +
@@ -151,7 +139,27 @@ public class AirbnbUserDTO {
                 ", status='" + status + '\'' +
                 ", profileImage='" + profileImage + '\'' +
                 '}';
+ */       
+        
+     @Override
+     public String toString() {
+    	 return "AirbnbUserDTO{"+ 
+    			 	"userNum=" +userNum+ 
+    			 	", userId='" +userId+ '\'' + 
+    			 	", userPwd='" +userPwd + '\'' +
+    			 	", userName='" + userName + '\'' +
+    			 	", userEmail='" + userEmail + '\'' +
+    			 	", userPhone='" + userPhone + '\'' +
+    			 	", joindate=" + joinDate +
+    			 	", lastLogin=" + lastLogin +
+    			 	", userAddr='" + userAddr + '\'' +
+    			 	'}';
+    	 
+     }
+        
+        
+        
     }
 	
 
-}
+

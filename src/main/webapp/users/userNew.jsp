@@ -74,7 +74,27 @@
     </style>
 
 
+<script>
+	window.onload = function() {
+		
+		
+		// const alertMessage = "<%= request.getAttribute("alertMessage") %> ";
+		// if (alertMessage) {
+		//	alert(alertMessage);
+		// }
+		// URL 쿼리 파라미터에서 success 여부 확인
+        const success = "${success}";
+        const message = "${message}";
+        
+        if (success === 'true') {
+            alert(message);
+        } else if (success === 'false') {
+            alert(message);
+        }
+	};
 
+
+</script>
 
 
 
@@ -92,6 +112,11 @@
             <div class="col-md-6 col-lg-4">
                 <div class="login-box">
                     <h2>회원가입 페이지</h2>
+                    
+                    
+                    
+                    
+                    
                     <form action="<%=request.getContextPath()%>/user_new.go" method="post">
                     
                         <div class="mb-3">
@@ -117,6 +142,11 @@
                         <div class="mb-3">
                             
                             <input type="tel" class="form-control" id="user_phone" name="user_phone" placeholder="전화번호를 입력하세요" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            
+                            <input type="text" class="form-control" id="user_addr" name="user_addr" placeholder="거주지를 입력하세요" required>
                         </div>
                         
                         <div class="btn-group">

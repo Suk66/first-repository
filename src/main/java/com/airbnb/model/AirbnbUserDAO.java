@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -156,13 +158,13 @@ public class AirbnbUserDAO {
 					dto.setUserNum(rs.getInt("user_num"));
 					dto.setUserId(rs.getString("user_id"));
 					dto.setUserPwd(rs.getString("user_pwd"));
+					dto.setUserName(rs.getString("user_name"));
 					dto.setUserEmail(rs.getString("user_email"));
 					dto.setUserPhone(rs.getString("user_phone"));
 					dto.setJoinDate(rs.getTimestamp("join_date"));
 					dto.setLastLogin(rs.getTimestamp("last_login"));
 					dto.setUserAddr(rs.getString("user_addr"));
-					dto.setStatus(rs.getString("status"));
-					dto.setProfileImage(rs.getString("profile_image"));
+					
 					
 					System.out.println("DTO 디버깅 AirbnbUserDTO > " + dto.toString());
 				} else {
@@ -182,6 +184,233 @@ public class AirbnbUserDAO {
 			}
 			return dto;
 		}	// getUser() end
+		
+		public int UserNew(AirbnbUserDTO dto) {
+			
+			int result = 0;
+			
+			
+			
+			try {
+				openConn();
+				
+				sql = "insert into airbnb_user (user_id, user_pwd, user_name, user_email, user_phone, user_addr)" +
+						"values (?, ?, ?, ?, ?, ?)";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setString(1, dto.getUserId());
+				pstmt.setString(2, dto.getUserPwd());
+				pstmt.setString(3, dto.getUserName());
+				pstmt.setString(4, dto.getUserEmail());
+				pstmt.setString(5, dto.getUserPhone());
+				pstmt.setString(6, dto.getUserAddr());
+				
+				result = pstmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(pstmt, con);			
+			}
+			return result;
+		}	// userNew() end
+		
+		public boolean checkEmail(String userId, String userEmail) {
+			boolean isEmail = false;
+			
+			
+			try {
+				openConn();
+				
+				sql = "select count(*) from airbnb_user where user_email = ? and user_id != ?";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setString(1, userEmail);
+				pstmt.setString(2, userId);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next() && rs.getInt(1) > 0) {
+					isEmail = true;
+					
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				
+				closeConn(rs, pstmt, con);
+			}
+			
+			
+			return isEmail;
+	
+		}	// checkEmail() end
+		
+		public int updateUser (String userId, String userPwd, String userName, String userEmail, String userPhone, String userAddr) {
+			
+			int result = 0;
+			
+			
+			
+			try {
+				openConn();
+				
+				sql = "update airbnb_user set user_pwd =?, user_name = ?, user_email = ?, user_phone = ?, user_addr = ? where user_id =?";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setString(1, userPwd);
+				pstmt.setString(2, userName);
+				pstmt.setString(3, userEmail);
+				pstmt.setString(4, userPhone);
+				pstmt.setString(5, userAddr);
+				pstmt.setString(6, userId);
+				
+				result = pstmt.executeUpdate();
+				
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(pstmt, con);
+			}
+			return result;
+		}	// updateUser() end
+		
+		public int deleteUser(String userId) {
+			
+			int result = 0;
+			
+			
+			
+			try {
+				openConn();
+				
+				sql = "delete from airbnb_user where user_id = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setString(1, userId);
+				
+				result = pstmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(pstmt, con);
+			}
+			return result;
+	
+		}	//deleteUser() end
+		
+		public List<AirbnbUserDTO> getAllUsers() {
+			List<AirbnbUserDTO> userList = new ArrayList<AirbnbUserDTO>();
+			
+			
+			
+			try {
+				openConn();
+				
+				sql = "select * from airbnb_user order by user_num asc";
+			
+				pstmt = con.prepareStatement(sql);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					AirbnbUserDTO dto = new AirbnbUserDTO();
+					dto.setUserNum(rs.getInt("user_num"));
+					dto.setUserId(rs.getString("user_id"));
+					dto.setUserPwd(rs.getString("user_pwd"));
+					dto.setUserName(rs.getString("user_name"));
+					dto.setUserEmail(rs.getString("user_email"));
+					dto.setUserPhone(rs.getString("user_phone"));
+					dto.setJoinDate(rs.getTimestamp("join_date"));
+					dto.setLastLogin(rs.getTimestamp("last_login"));
+					dto.setUserAddr(rs.getString("user_addr"));
+					
+					userList.add(dto);
+					
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				
+				closeConn(rs, pstmt, con);
+			}
+			return userList;
+		
+		} 	// getAllUser() end
+		
+		public void reUserNum(int deleteRe) {
+			
+			
+			
+			try {
+				openConn();
+				
+				sql = "update airbnb_user set user_num = user_num -1 where user_num > ?";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setInt(1, deleteRe);
+				pstmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				closeConn(pstmt, con);
+				
+			}
+			
+		}	// reUserNum() end
+		
+		public int getUserNumById(String userId) {
+			
+			int userNum = 0;
+			
+			
+			try {
+				openConn();
+				
+				sql = "select user_num from airbnb_user where user_id = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setString(1, userId);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					
+					userNum = rs.getInt("user_num");
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				
+				closeConn(rs, pstmt, con);
+				
+			}
+			return userNum;
+			
+		} 	// getUserNumById() end
+		
+		
+		
+		
 		
 		
 		

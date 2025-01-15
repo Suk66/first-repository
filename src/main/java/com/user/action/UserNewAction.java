@@ -1,6 +1,7 @@
 package com.user.action;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,15 +16,17 @@ public class UserNewAction implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-		String admin_id = request.getParameter("admin_id").trim();
+		String user_id = request.getParameter("user_id").trim();
 		
-		String admin_pwd = request.getParameter("admin_pwd").trim();
+		String user_pwd = request.getParameter("user_pwd").trim();
 		
-		String admin_name = request.getParameter("admin_name").trim();
+		String user_name = request.getParameter("user_name").trim();
 		
-		String admin_email = request.getParameter("admin_email").trim();
+		String user_email = request.getParameter("user_email").trim();
 		
-		String admin_phone = request.getParameter("admin_phone").trim();
+		String user_phone = request.getParameter("user_phone").trim();
+		
+		String user_addr = request.getParameter("user_addr").trim();
 		
 		
 		AirbnbUserDAO dao = AirbnbUserDAO.getInstance();
@@ -31,17 +34,38 @@ public class UserNewAction implements Action {
 		
 		AirbnbUserDTO dto = new AirbnbUserDTO();
 		
-		dto.setUserId(admin_id);
-		dto.setUserPwd(admin_pwd);
-		dto.setU
+		dto.setUserId(user_id);
+		dto.setUserPwd(user_pwd);
+		dto.setUserName(user_name);
+		dto.setUserEmail(user_email);
+		dto.setUserPhone(user_phone);
+		dto.setUserAddr(user_addr);
+		
+		int chk = dao.UserNew(dto);
+		
+		ActionForward forward = new ActionForward();
 		
 		
-		
-		
-		
-		
-		
-		return null;
+		if(chk > 0) {
+			// 성공시
+			// request.setAttribute("alertMessage", "회원가입을 축하드립니다. " +user_id+ " 님 앞으로를 기원합니다.");
+			request.setAttribute("success", true);
+			request.setAttribute("message", "회원가입이 성공적으로 완료되었습니다.");
+			
+			request.setAttribute("userDetail", dto);
+			forward.setRedirect(false);
+			forward.setPath("/users/userNew_Ok.jsp");
+			
+			
+		} else {
+			// 실패
+			request.setAttribute("success", false);
+			request.setAttribute("message", "회원가입에 실패했습니다.");
+			
+			forward.setRedirect(false);
+			forward.setPath("/admin/hidden_test.jsp");
+		}
+		return forward;
 	}
 
 }
