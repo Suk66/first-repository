@@ -14,11 +14,9 @@ public class UserViewAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 샘플 데이터 생성
 		
-		AirbnbUserDTO user = new AirbnbUserDTO(1, "hyunsuk123", "password123", "hyunsuk@example.com", "010-1234-5678", new Timestamp(System.currentTimeMillis()),
+		AirbnbUserDTO user = new AirbnbUserDTO(1, "hyunsuk123", "password123", "윤정현", "poksa12@example.com", "010-1234-5678", new Timestamp(System.currentTimeMillis()),
                 new Timestamp(System.currentTimeMillis()),
-                "Seoul, South Korea",
-                "ACTIVE",
-                "/images/hyunsuk.jpg");
+                "Seoul, South Korea");
 		
 		
 		request.setAttribute("User", user);

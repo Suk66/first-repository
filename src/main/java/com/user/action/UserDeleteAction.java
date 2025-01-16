@@ -18,7 +18,7 @@ public class UserDeleteAction implements Action {
 		
 		AirbnbUserDAO dao = AirbnbUserDAO.getInstance();
 		
-		dao.getUserNumById(userId);
+		int deletedUserNum = dao.getUserNumById(userId);
 		
 		int result = dao.deleteUser(userId);
 		

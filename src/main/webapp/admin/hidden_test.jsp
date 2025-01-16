@@ -472,6 +472,7 @@
 			<div class="search__title">
 				특색 있는 숙소와 즐길<br /> 거리를 예약하세요.
 			</div>
+			<form action="<%= request.getContextPath() %>/proSearch.go" method="post">
 			<table>
 				<tr>
 					<td colspan="2" class="search__sub__title">목적지</td>
@@ -514,10 +515,13 @@
 						</select>
 					</td>
 				</tr>
+				
+				
 			</table>
+			</form>
 			
 			<div class="search__button">
-				<button type="button" class="btn btn-danger">검색</button>
+				<button type="submit" class="btn btn-danger">검색</button>
 			</div>
 			
 			
