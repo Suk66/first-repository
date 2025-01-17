@@ -161,6 +161,7 @@ public class AdminDAO {
 				dto.setAdmin_email(rs.getString(4));
 				dto.setAdmin_phone(rs.getString(5));
 				dto.setAdmin_date(rs.getString(6));
+				dto.setAdmin_type(rs.getString(7));
 			}
 			
 			

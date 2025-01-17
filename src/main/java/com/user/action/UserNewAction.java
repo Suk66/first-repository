@@ -16,17 +16,17 @@ public class UserNewAction implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-		String user_id = request.getParameter("user_id").trim();
+		String user_id = request.getParameter("user_id");
 		
-		String user_pwd = request.getParameter("user_pwd").trim();
+		String user_pwd = request.getParameter("user_pwd");
 		
-		String user_name = request.getParameter("user_name").trim();
+		String user_name = request.getParameter("user_name");
 		
-		String user_email = request.getParameter("user_email").trim();
+		String user_email = request.getParameter("user_email");
 		
-		String user_phone = request.getParameter("user_phone").trim();
+		String user_phone = request.getParameter("user_phone");
 		
-		String user_addr = request.getParameter("user_addr").trim();
+		String user_addr = request.getParameter("user_addr");
 		
 		
 		AirbnbUserDAO dao = AirbnbUserDAO.getInstance();

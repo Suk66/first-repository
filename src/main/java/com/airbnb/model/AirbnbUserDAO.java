@@ -188,16 +188,18 @@ public class AirbnbUserDAO {
 		public int UserNew(AirbnbUserDTO dto) {
 			
 			int result = 0;
+			int newUserNum = 0;
 			
 			
 			
 			try {
 				openConn();
 				
-				sql = "insert into airbnb_user (user_id, user_pwd, user_name, user_email, user_phone, user_addr)" +
-						"values (?, ?, ?, ?, ?, ?)";
+				sql = "insert into airbnb_user (user_num, user_id, user_pwd, user_name, user_email, user_phone, user_addr)" +
+						"values (user_num_seq.NEXTVAL, ?, ?, ?, ?, ?, ?)";
 				
-				pstmt = con.prepareStatement(sql);
+				pstmt = con.prepareStatement(sql, new String[] {"user_num"});	// 생성된user_num 받아오기
+				
 				
 				pstmt.setString(1, dto.getUserId());
 				pstmt.setString(2, dto.getUserPwd());
@@ -206,13 +208,21 @@ public class AirbnbUserDAO {
 				pstmt.setString(5, dto.getUserPhone());
 				pstmt.setString(6, dto.getUserAddr());
 				
+				
 				result = pstmt.executeUpdate();
+				
+				rs = pstmt.getGeneratedKeys();	// 자동증가된 num 가져오기
+				if(rs.next()) {
+					newUserNum = rs.getInt(1);
+				}
+				
+				System.out.println("방금 막 생선된 유저입니다. user_num: " + newUserNum);
 				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
-				closeConn(pstmt, con);			
+				closeConn(rs, pstmt, con);		
 			}
 			return result;
 		}	// userNew() end
@@ -407,6 +417,56 @@ public class AirbnbUserDAO {
 			return userNum;
 			
 		} 	// getUserNumById() end
+		
+		public int getRestoreUserNum(Connection con) {
+			
+			int RestoreUserNum = 1;
+			
+			
+			
+			try {
+				
+				
+				sql = "select user_num from airbnb_user order by user_num asc";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				rs = pstmt.executeQuery();
+				
+				List<Integer> exitNum = new ArrayList<>();
+				
+				while(rs.next()) {
+					
+					exitNum.add(rs.getInt("user_num"));
+				}
+				// 빈 자리 찾기.
+				for (int i =1; i <= exitNum.size(); i++) {
+					if(!exitNum.contains(i)) {
+						RestoreUserNum = i;
+						break;
+					}
+				}
+				// 빈 공간이 없으면 마지막 값 +1 할당
+				if(RestoreUserNum == exitNum.size() +1) {
+					RestoreUserNum = exitNum.size() +1;
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				
+					try {
+						if (pstmt != null) pstmt.close();
+						if (rs != null) rs.close();
+						
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}	
+			}
+			return RestoreUserNum;
+		}
 		
 		
 		

@@ -25,7 +25,7 @@ public class UserDeleteAction implements Action {
 		ActionForward forward = new ActionForward();
 		
 		if(result > 0) {
-			
+			dao.reUserNum(deletedUserNum);
 			request.setAttribute("message", "회원이 성공적으로 삭제 되었습니다.");
 			
 		}else {

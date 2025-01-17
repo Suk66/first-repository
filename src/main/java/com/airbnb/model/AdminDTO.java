@@ -8,6 +8,7 @@ public class AdminDTO {
 	private String admin_email;
 	private String admin_phone;
 	private String admin_date;
+	private String admin_type;
 	
 	public String getAdmin_id() {
 		return admin_id;
@@ -45,6 +46,14 @@ public class AdminDTO {
 	public void setAdmin_date(String admin_date) {
 		this.admin_date = admin_date;
 	}
+	
+	public String getAdmin_type() {
+		return admin_type;
+	}
+	public void setAdmin_type(String admin_type) {
+		this.admin_type = admin_type;
+	}
+	
 	
 	
 	
