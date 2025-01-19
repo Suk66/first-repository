@@ -551,25 +551,94 @@
     background: #e14e4d;
 }
 
-#uploadedRoomPreview {
+.theKing{
 	background-color: green;
+
+	width: 1800px;
+	height: 900px;
+
+}
+
+#uploadedRoomPreview {
+	
 	
 	margin: 20px auto 20px auto;
 	
-
+	
 	width: 1400px;
 	height: 600px;
 	
 	border: 1px solid white;
 	border-radius: 14px;
 	
-    display: grid;
-		grid-template-columns: 1fr 1fr 1fr 1fr;
+    	display: grid;
+		grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개씩 */
 		grid-gap: 10px;
     
     
-    margin-top: 20px;
+    
 }
+
+.house__box {
+		display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개씩 */
+    gap: 20px; /* 카드 간 간격 */
+    max-width: 1200px; /* 최대 너비 설정 */
+    height: 400px;
+    margin: 0 auto; /* 가운데 정렬 */
+    padding: 20px;
+    overlow: hidden;
+}
+.house {
+    
+    width: 150px;border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+    text-align: center;
+    width: 100%; /* 그리드에서 자동 조정됨 */
+    box-sizing: border-box;
+}
+
+/* 이미지 스타일 */
+.house__img1 img {
+    
+    height: 180px;
+	background-size: 100% 100%;
+    border-radius: 12px;
+}
+
+.infoo1 {
+	margin: 5px 0;
+		font-size: 13px;
+		color: gray;
+	}
+
+.infoo2 {
+	font-size: 18px;
+		font-weight: 600;
+		color: rgb(60, 60, 60);
+	
+}
+
+
+
+.house__info {
+    margin-top: 10px;
+}
+
+.house__btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: #FF5A5F;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+
+
 
 #uploadedRoomPreview h3 {
     font-size: 18px;
@@ -588,6 +657,43 @@
 
 	
 	
+	/*
+	페이지 라인
+	
+	*/	
+	.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 10px 15px;
+    margin: 5px;
+    background-color: #FF5A5F;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.pagination a:hover {
+    background-color: #FF3B30;
+}
+
+.current-page {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 10px;
+}
+	
+	
+	
+ .pagination{
+ 	width: 200px;
+ 	
+ 	margin: 20px auto 20px auto;
+ 
+ }	
 
 
 
@@ -697,49 +803,102 @@
 </div>
 </section>
 
-<section>
+
+
+        	<%
+            // 세션에서 업로드된 개별 숙소 정보 가져오기
+            //String uploadedImagePath = (String) session.getAttribute("uploadedImagePath");
+            //String uploadedTitle = (String) session.getAttribute("uploadedTitle");
+            //String uploadedDescription = (String) session.getAttribute("uploadedDescription");
+
+            // request에서 숙소 목록 가져오기
+            List<AirbnbRoomDTO> roomList = (List<AirbnbRoomDTO>) request.getAttribute("roomList");
+            
+            // 현재 페이지 번호 가져오기 
+            int pageNumber = 1;
+            if(request.getParameter("page") != null) {
+            	pageNumber = Integer.parseInt(request.getParameter("page"));
+            }
+            
+            // 한 페이지당 표시할 개수
+            int itemsPerPage = 8;
+            
+            // 전체 페이지수 계산
+            int totalRooms = (roomList != null) ? roomList.size() : 0;
+    		int totalPages = (int) Math.ceil((double) totalRooms / itemsPerPage);
+            
+    		// 현재 페이지에서 보여줄 숙소 목록 자르기
+    	    int startIndex = (pageNumber - 1) * itemsPerPage;
+    	    int endIndex = Math.min(startIndex + itemsPerPage, totalRooms);
+    	    List<AirbnbRoomDTO> pagedRoomList = (roomList != null) ? roomList.subList(startIndex, endIndex) : null;
+            
+       		 %>
+       		 
+       		 <section>
 
 	
 
 
 	<!-- 업로드된 숙소 미리보기 -->
+		
+		<div class="hostRoom__title">
+		<h3>업로드된 숙박 시설</h3>
+		</div>
+		
+		
         <div id="uploadedRoomPreview">
-    <h3>업로드된 숙박 시설</h3>
-    <div class="house_box">
+    
+    		<div class="house__box">
 
-        <%
-            // 세션에서 업로드된 개별 숙소 정보 가져오기
-            String uploadedImagePath = (String) session.getAttribute("uploadedImagePath");
-            String uploadedTitle = (String) session.getAttribute("uploadedTitle");
-            String uploadedDescription = (String) session.getAttribute("uploadedDescription");
-
-            // request에서 숙소 목록 가져오기
-            List<AirbnbRoomDTO> roomList = (List<AirbnbRoomDTO>) request.getAttribute("roomList");
-        %>
-
-        <% if (roomList != null && !roomList.isEmpty()) { %>
-            <% for (AirbnbRoomDTO room : roomList) { %>
+        <% if (pagedRoomList != null && !pagedRoomList.isEmpty()) { %>
+            <% for (AirbnbRoomDTO room : pagedRoomList) { %>
                 <div class="house">
+                	<a href="<%= request.getContextPath() %>/roomDetail.go?id=<%= room.getId() %>">
                     <div class="house__img1">
                         <img src="<%= request.getContextPath() %>/<%= room.getImagePath() %>" 
                              alt="업로드된 숙소 이미지" width="300">
                     </div>
+                    </a>
                     <div class="house__info">
                         <div class="infoo1"><%= room.getTitle() %></div>
                         <div class="infoo2"><%= room.getDescription() %></div>
-                        <a href="<%= request.getContextPath() %>/roomDetail.go?id=<%= room.getId() %>" 
-                           class="house__btn">상세보기</a>
+                        
                     </div>
                 </div>
+                
+                
             <% } %>
-        <% } else { %>
-            <p>등록된 숙소가 없습니다.</p>
         <% } %>
 
     </div>
-</div>
+	</div>
+
+
+ 
+    <!-- 페이지네이션 (새로운 페이지 이동 없이 section 내부에서만 변경) -->
+    <% if (totalPages > 1) {  %>
+    <div class="pagination">
+        <% if (pageNumber > 1) { %>
+            <a href="?page=<%= pageNumber - 1 %>" class="page-btn">이전</a>
+        <% } %>
+
+        <% for (int i = 1; i <= totalPages; i++) { %>
+            <% if (i == pageNumber) { %>
+                <span class="current-page"><%= i %></span>
+            <% } else { %>
+                <a href="?page=<%= i %>" class="page-btn"><%= i %></a>
+            <% } %>
+        <% } %>
+
+        <% if (pageNumber < totalPages) { %>
+            <a href="?page=<%= pageNumber + 1 %>" class="page-btn">다음</a>
+        <% } %>
+    </div>
+    <%} %>
+    
+</section>
+    
         
-        </section>
     
 	
 
