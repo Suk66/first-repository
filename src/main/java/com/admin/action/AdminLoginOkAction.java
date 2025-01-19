@@ -38,9 +38,11 @@ public class AdminLoginOkAction implements Action {
 			
 			AdminDTO cont = dao.getAdmin(admin_id);
 			
-			session.setAttribute("adminId", cont.getAdmin_id());
+			session.setAttribute("admin_id", cont.getAdmin_id());
 			session.setAttribute("adminName", cont.getAdmin_name());
 			
+			
+			System.out.println("현재 세션의 관리자 ID: " + session.getAttribute("admin_id"));
 			forward.setRedirect(false);
 			forward.setPath("admin/admin_host.jsp");
 			

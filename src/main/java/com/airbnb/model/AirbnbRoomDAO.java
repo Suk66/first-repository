@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -87,9 +89,9 @@ public class AirbnbRoomDAO {
 
 	} // closeConn() end
 	
-	public void insertRoom(AirbnbRoomDTO room) {
+	public int insertRoom(AirbnbRoomDTO room) {
 		
-		
+			int result = 0;
 		
 		try {
 			openConn();
@@ -107,7 +109,7 @@ public class AirbnbRoomDAO {
 	        pstmt.setString(6, room.getImagePath());
 	        pstmt.setString(7, room.getLink());
 	        
-	        pstmt.executeUpdate();
+	        result = pstmt.executeUpdate();
 			
 			
 		} catch (SQLException e) {
@@ -117,9 +119,50 @@ public class AirbnbRoomDAO {
 			
 			closeConn(pstmt, con);
 		}
-        
+        return result;
 		
-	}
+	}	// insertRoom() end
+	
+	public List<AirbnbRoomDTO> getAllRooms() {
+		
+		List<AirbnbRoomDTO> roomList = new ArrayList<AirbnbRoomDTO>();
+		
+		
+		
+		try {
+			openConn();
+			
+			sql = "select id, admin_id, title, location, description, price, image_path, link, created_at from airbnb_room order by created_at desc";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				AirbnbRoomDTO room = new AirbnbRoomDTO();
+				
+				room.setId(rs.getInt("id"));
+				room.setAdminId(rs.getString("admin_id"));
+				room.setTitle(rs.getString("title"));
+				room.setLocation(rs.getString("location"));
+				room.setDescription(rs.getString("description"));
+				room.setPrice(rs.getInt("price"));
+				room.setImagePath(rs.getString("image_path"));
+				room.setLink(rs.getString("link"));
+				roomList.add(room);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return roomList;
+		
+		
+	}	// getAllRooms() end
+	
 	
 
 }

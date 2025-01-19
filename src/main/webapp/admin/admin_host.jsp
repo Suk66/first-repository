@@ -1,3 +1,5 @@
+<%@page import="com.airbnb.model.AirbnbRoomDTO"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -562,9 +564,10 @@
 	border-radius: 14px;
 	
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    justify-content: center;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+		grid-gap: 10px;
+    
+    
     margin-top: 20px;
 }
 
@@ -701,20 +704,41 @@
 
 	<!-- 업로드된 숙소 미리보기 -->
         <div id="uploadedRoomPreview">
-            <% 
-                String uploadedImagePath = (String) session.getAttribute("uploadedImagePath");
-                if (uploadedImagePath != null) { 
-            %>
-                <h3>업로드된 숙박 시설</h3>
-                <div class="room-preview">
-                    <img src="<%= request.getContextPath() %>/<%= uploadedImagePath %>" alt="업로드된 숙소 이미지" width="300">
-                </div>
-            <% 	
-            	// session.removeAttribute("uploadedImagePath");
-                }
-            %>
-        </div>
+    <h3>업로드된 숙박 시설</h3>
+    <div class="house_box">
 
+        <%
+            // 세션에서 업로드된 개별 숙소 정보 가져오기
+            String uploadedImagePath = (String) session.getAttribute("uploadedImagePath");
+            String uploadedTitle = (String) session.getAttribute("uploadedTitle");
+            String uploadedDescription = (String) session.getAttribute("uploadedDescription");
+
+            // request에서 숙소 목록 가져오기
+            List<AirbnbRoomDTO> roomList = (List<AirbnbRoomDTO>) request.getAttribute("roomList");
+        %>
+
+        <% if (roomList != null && !roomList.isEmpty()) { %>
+            <% for (AirbnbRoomDTO room : roomList) { %>
+                <div class="house">
+                    <div class="house__img1">
+                        <img src="<%= request.getContextPath() %>/<%= room.getImagePath() %>" 
+                             alt="업로드된 숙소 이미지" width="300">
+                    </div>
+                    <div class="house__info">
+                        <div class="infoo1"><%= room.getTitle() %></div>
+                        <div class="infoo2"><%= room.getDescription() %></div>
+                        <a href="<%= request.getContextPath() %>/roomDetail.go?id=<%= room.getId() %>" 
+                           class="house__btn">상세보기</a>
+                    </div>
+                </div>
+            <% } %>
+        <% } else { %>
+            <p>등록된 숙소가 없습니다.</p>
+        <% } %>
+
+    </div>
+</div>
+        
         </section>
     
 	
